@@ -1,28 +1,29 @@
 /*******************************************************************************
- System Tasks File
-
+  MPLAB Harmony Application Source File
+  
+  Company:
+    Microchip Technology Inc.
+  
   File Name:
-    system_tasks.c
+    app_driver_state_fsm.c
 
   Summary:
-    This file contains source code necessary to maintain system's polled state
-    machines.
+    This file contains the source code for the MPLAB Harmony application.
 
   Description:
-    This file contains source code necessary to maintain system's polled state
-    machines.  It implements the "SYS_Tasks" function that calls the individual
-    "Tasks" functions for all polled MPLAB Harmony modules in the system.
-
-  Remarks:
-    This file requires access to the systemObjects global data structure that
-    contains the object handles to all MPLAB Harmony module objects executing
-    polled in the system.  These handles are passed into the individual module
-    "Tasks" functions to identify the instance of the module to maintain.
+    This file contains the source code for the MPLAB Harmony application.  It 
+    implements the logic of the application's state machine and it may call 
+    API routines of other MPLAB Harmony modules in the system, such as drivers,
+    system services, and middleware.  However, it does not call any of the
+    system interfaces (such as the "Initialize" and "Tasks" functions) of any of
+    the modules in the system or make any assumptions about when those functions
+    are called.  That is the responsibility of the configuration-specific system
+    files.
  *******************************************************************************/
 
 // DOM-IGNORE-BEGIN
 /*******************************************************************************
-Copyright (c) 2013-2015 released Microchip Technology Inc.  All rights reserved.
+Copyright (c) 2013-2014 released Microchip Technology Inc.  All rights reserved.
 
 Microchip licenses to you the right to use, modify, copy and distribute
 Software only when embedded on a Microchip microcontroller or digital signal
@@ -45,51 +46,68 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
  *******************************************************************************/
 // DOM-IGNORE-END
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: Included Files
-// *****************************************************************************
-// *****************************************************************************
-
-#include "system_config.h"
-#include "system_definitions.h"
-
 
 // *****************************************************************************
 // *****************************************************************************
-// Section: System "Tasks" Routine
+// Section: Included Files 
 // *****************************************************************************
 // *****************************************************************************
 
-/*******************************************************************************
-  Function:
-    void SYS_Tasks ( void )
+#include "app_driver_state_fsm.h"
 
-  Remarks:
-    See prototype in system/common/sys_module.h.
-*/
+APP_DRIVER_STATE_FSM_DATA app_driver_state_fsmData;
 
-void SYS_Tasks ( void )
+void APP_DRIVER_STATE_FSM_Initialize ( void )
 {
-    /* Maintain system services */
-    /* SYS_TMR Device layer tasks routine */ 
-    SYS_TMR_Tasks(sysObj.sysTmr);
+    /* Place the App state machine in its initial state. */
+    app_driver_state_fsmData.state = APP_DRIVER_STATE_FSM_STATE_INIT;
 
-    /* Maintain Device Drivers */
-    DRV_USART_TasksTransmit(sysObj.drvUsart0);
-    DRV_USART_TasksError (sysObj.drvUsart0);
-    DRV_USART_TasksReceive(sysObj.drvUsart0);
-
-    /* Maintain Middleware & Other Libraries */
-
-    /* Maintain the application's state machine. */
-    APP_UART_Tasks();
-    APP_CAN_Tasks();
-    APP_DRIVER_STATE_FSM_Tasks();
+    
+    /* TODO: Initialize your application's state machine and other
+     * parameters.
+     */
 }
 
+void APP_DRIVER_STATE_FSM_Tasks ( void )
+{
+
+    /* Check the application's current state. */
+    switch ( app_driver_state_fsmData.state )
+    {
+        /* Application's initial state. */
+        case APP_DRIVER_STATE_FSM_STATE_INIT:
+        {
+            bool appInitialized = true;
+       
+        
+            if (appInitialized)
+            {
+            
+                app_driver_state_fsmData.state = IDLE;
+            }
+            break;
+        }
+
+        case IDLE:
+        {
+        
+            break;
+        }
+
+        /* TODO: implement your application state machine.*/
+        
+
+        /* The default state should never be executed. */
+        default:
+        {
+            /* TODO: Handle error in application's state machine. */
+            break;
+        }
+    }
+}
+
+ 
 
 /*******************************************************************************
  End of File
  */
-

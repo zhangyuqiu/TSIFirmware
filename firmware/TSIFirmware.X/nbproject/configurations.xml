@@ -35,6 +35,7 @@
         <itemPath>../src/app_uart.h</itemPath>
         <itemPath>../src/app_can.h</itemPath>
         <itemPath>../src/TSIconfig.h</itemPath>
+        <itemPath>../src/app_Driver_State_FSM.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">
@@ -164,6 +165,7 @@
         <itemPath>../src/app_uart.c</itemPath>
         <itemPath>../src/main.c</itemPath>
         <itemPath>../src/app_can.c</itemPath>
+        <itemPath>../src/app_Driver_State_FSM.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="framework" projectFiles="true">
         <logicalFolder name="f1" displayName="driver" projectFiles="true">

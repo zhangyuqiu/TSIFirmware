@@ -295,4 +295,6 @@ build/default/production/_ext/1688732426/system_interrupt.o:  \
  ../../../../framework/system/ports/sys_ports.h  \
  ../../../../framework/system/ports/sys_ports_definitions.h  \
  ../src/app_can.h  \
-../src/system_config/default/system_definitions.h 
+../src/app_driver_state_fsm.h  \
+ ../src/system_config/default/system_definitions.h  \
+ ../src/system_config/default/../../TSIconfig.h 

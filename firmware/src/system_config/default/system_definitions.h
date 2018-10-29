@@ -61,6 +61,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system/ports/sys_ports.h"
 #include "app_uart.h"
 #include "app_can.h"
+#include "app_driver_state_fsm.h"
 
 
 // DOM-IGNORE-BEGIN

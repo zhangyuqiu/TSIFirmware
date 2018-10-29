@@ -62,20 +62,29 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "system/common/sys_common.h"
 #include "app_uart.h"
 #include "app_can.h"
+#include "app_driver_state_fsm.h"
 #include "system_definitions.h"
-
+#include "../../TSIconfig.h"
 // *****************************************************************************
 // *****************************************************************************
 // Section: System Interrupt Vector Functions
 // *****************************************************************************
 // *****************************************************************************
  
- 
+ uint32_t timerCount = 0;
 
+ 
 void __ISR(_TIMER_1_VECTOR, ipl1AUTO) IntHandlerDrvTmrInstance0(void)
 {
     PLIB_INT_SourceFlagClear(INT_ID_0,INT_SOURCE_TIMER_1);
-    BSP_LEDToggle(BSP_LED_1);
+    
+    timerCount++;
+    if (timerCount == TIMER0_INT_MULT) {
+        BSP_LEDToggle(BSP_LED_1);
+        can_send_bytes(0x300,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF);
+        timerCount = 0;
+    }
+    
     //uart_write_string(" Timer1 Triggered3.\n\r");
     //can_send_bytes(0x123,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF);
     //can_send_bytes(0x201,0x11,0x22,0x33,0x44,0x55,0x66);
@@ -95,7 +104,7 @@ void __ISR(_CAN1_VECTOR, IPL1AUTO) _IntHandlerDrvCANInstance0(void)
     {
 
        if(DRV_CAN0_ChannelMessageReceive(CAN_CHANNEL1, 0x201, 4, &TestMessage1[0])){
-           //can_send_bytes(0x123,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF,rand() % 0xFF);
+           can_send_bytes(0x123,TestMessage1[0],TestMessage1[1],TestMessage1[2],TestMessage1[3],TestMessage1[4],TestMessage1[5],rand() % 0xFF,rand() % 0xFF);
        };
        if(DRV_CAN0_ChannelMessageReceive(CAN_CHANNEL2, 0x301, 4, &TestMessage2[0]));
        if(DRV_CAN0_ChannelMessageReceive(CAN_CHANNEL3, 0x401, 4, &TestMessage3[0]));

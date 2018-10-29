@@ -294,4 +294,5 @@ build/default/production/_ext/639803181/sys_clk_pic32mz.o:  \
  ../../../../framework/system/ports/sys_ports.h  \
  ../../../../framework/system/ports/sys_ports_definitions.h  \
  ../src/app_uart.h  \
-../src/app_can.h 
+../src/app_can.h  \
+../src/app_driver_state_fsm.h 

@@ -1,28 +1,26 @@
 /*******************************************************************************
- System Tasks File
+  MPLAB Harmony Application Header File
+
+  Company:
+    Microchip Technology Inc.
 
   File Name:
-    system_tasks.c
+    app_driver_state_fsm.h
 
   Summary:
-    This file contains source code necessary to maintain system's polled state
-    machines.
+    This header file provides prototypes and definitions for the application.
 
   Description:
-    This file contains source code necessary to maintain system's polled state
-    machines.  It implements the "SYS_Tasks" function that calls the individual
-    "Tasks" functions for all polled MPLAB Harmony modules in the system.
+    This header file provides function prototypes and data type definitions for
+    the application.  Some of these are required by the system (such as the
+    "APP_Initialize" and "APP_Tasks" prototypes) and some of them are only used
+    internally by the application (such as the "APP_STATES" definition).  Both
+    are defined here for convenience.
+*******************************************************************************/
 
-  Remarks:
-    This file requires access to the systemObjects global data structure that
-    contains the object handles to all MPLAB Harmony module objects executing
-    polled in the system.  These handles are passed into the individual module
-    "Tasks" functions to identify the instance of the module to maintain.
- *******************************************************************************/
-
-// DOM-IGNORE-BEGIN
+//DOM-IGNORE-BEGIN
 /*******************************************************************************
-Copyright (c) 2013-2015 released Microchip Technology Inc.  All rights reserved.
+Copyright (c) 2013-2014 released Microchip Technology Inc.  All rights reserved.
 
 Microchip licenses to you the right to use, modify, copy and distribute
 Software only when embedded on a Microchip microcontroller or digital signal
@@ -43,7 +41,10 @@ CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF
 SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
  *******************************************************************************/
-// DOM-IGNORE-END
+//DOM-IGNORE-END
+
+#ifndef _APP_DRIVER_STATE_FSM_H
+#define _APP_DRIVER_STATE_FSM_H
 
 // *****************************************************************************
 // *****************************************************************************
@@ -51,43 +52,64 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 // *****************************************************************************
 
+#include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include "system_config.h"
 #include "system_definitions.h"
 
+// DOM-IGNORE-BEGIN
+#ifdef __cplusplus  // Provide C++ Compatibility
 
-// *****************************************************************************
-// *****************************************************************************
-// Section: System "Tasks" Routine
-// *****************************************************************************
-// *****************************************************************************
+extern "C" {
 
-/*******************************************************************************
-  Function:
-    void SYS_Tasks ( void )
+#endif
 
-  Remarks:
-    See prototype in system/common/sys_module.h.
-*/
-
-void SYS_Tasks ( void )
+typedef enum
 {
-    /* Maintain system services */
-    /* SYS_TMR Device layer tasks routine */ 
-    SYS_TMR_Tasks(sysObj.sysTmr);
+	/* Application's state machine's initial state. */
+	APP_DRIVER_STATE_FSM_STATE_INIT=0,
+	IDLE,
+    DRIVE_SETUP,
+    DRIVE,
+    OVERCURRENT,
+    IDLE_SETUP,
 
-    /* Maintain Device Drivers */
-    DRV_USART_TasksTransmit(sysObj.drvUsart0);
-    DRV_USART_TasksError (sysObj.drvUsart0);
-    DRV_USART_TasksReceive(sysObj.drvUsart0);
+} APP_DRIVER_STATE_FSM_STATES;
 
-    /* Maintain Middleware & Other Libraries */
+typedef struct
+{
+    /* The application's current state */
+    APP_DRIVER_STATE_FSM_STATES state;
 
-    /* Maintain the application's state machine. */
-    APP_UART_Tasks();
-    APP_CAN_Tasks();
-    APP_DRIVER_STATE_FSM_Tasks();
+} APP_DRIVER_STATE_FSM_DATA;
+
+/*FSM conditions*/
+typedef struct {
+    uint8_t buttonPushed;
+    uint8_t brakePressed;
+    uint8_t safetyLoopClosed;
+    uint8_t throttleImplausibility;
+    uint8_t throttleLessThan; // throttle < 0.5v
+    uint8_t prechargeComplete;
+    uint8_t overCurrent;
+    uint8_t airsOpen;
+    uint8_t throttleControl;
+} driver_state_fsm_conditions;
+
+void APP_DRIVER_STATE_FSM_Initialize ( void );
+
+void APP_DRIVER_STATE_FSM_Tasks( void );
+
+
+#endif /* _APP_DRIVER_STATE_FSM_H */
+
+//DOM-IGNORE-BEGIN
+#ifdef __cplusplus
 }
-
+#endif
+//DOM-IGNORE-END
 
 /*******************************************************************************
  End of File

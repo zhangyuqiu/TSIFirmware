@@ -48,6 +48,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 
 #include "system_config.h"
 #include "system_definitions.h"
+#include "TSIconfig.h"
 
 
 // ****************************************************************************
@@ -222,11 +223,13 @@ void SYS_Initialize ( void* data )
 
     /* Enable Global Interrupts */
     SYS_INT_Enable();
-    DRV_TMR0_PeriodValueSet(100000);
+    /*Timer 0 period*/
+    DRV_TMR0_PeriodValueSet(TIMER0_INT_PERIOD);
 
     /* Initialize the Application */
     APP_UART_Initialize();
     APP_CAN_Initialize();
+    APP_DRIVER_STATE_FSM_Initialize();
 }
 
 

@@ -296,6 +296,7 @@ build/default/production/_ext/1360937237/app_can.o:  \
  ../../../../framework/system/ports/sys_ports_definitions.h  \
  ../src/app_uart.h  \
 ../src/app_can.h  \
-../src/app_uart.c  \
+../src/app_driver_state_fsm.h  \
+ ../src/app_uart.c  \
 ../src/app_uart.h  \
- ../src/TSIconfig.h 
+../src/TSIconfig.h 

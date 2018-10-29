@@ -297,4 +297,5 @@ build/default/production/_ext/1688732426/system_exceptions.o:  \
  ../src/app_uart.h  \
 ../src/system_config/default/system_definitions.h  \
  ../src/app_can.h  \
-../../../../framework/system/debug/sys_debug.h 
+../src/app_driver_state_fsm.h  \
+ ../../../../framework/system/debug/sys_debug.h 
