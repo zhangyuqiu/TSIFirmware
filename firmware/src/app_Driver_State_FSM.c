@@ -90,10 +90,33 @@ void APP_DRIVER_STATE_FSM_Tasks ( void )
 
         case IDLE:
         {
-        
+            
             break;
         }
-
+        
+        case DRIVER_SETUP: 
+        {
+            
+            break;
+        }
+        
+        case DRIVE:
+        {
+            
+            break;
+        }
+        
+        case OVERCURRENT:
+        {
+            
+            break;
+        }
+        
+        case IDLE_SETUP:
+        {
+            
+            break;
+        }
         /* TODO: implement your application state machine.*/
         
 
@@ -106,7 +129,7 @@ void APP_DRIVER_STATE_FSM_Tasks ( void )
     }
 }
 
- 
+
 
 /*******************************************************************************
  End of File

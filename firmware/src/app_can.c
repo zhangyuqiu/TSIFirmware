@@ -64,20 +64,6 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 // *****************************************************************************
 
 // *****************************************************************************
-/* Application Data
-
-  Summary:
-    Holds application data
-
-  Description:
-    This structure holds the application's data.
-
-  Remarks:
-    This structure should be initialized by the APP_Initialize function.
-    
-    Application strings and buffers are be defined outside this structure.
-*/
-
 APP_CAN_DATA app_canData;
 
 uint8_t message_array[(CAN_MESSAGE_SEND_ARRAY_LENGTH)][(CAN_MESSAGE_SEND_BYTES)];
@@ -118,7 +104,8 @@ void APP_CAN_Tasks ( void )
             if (current_ptr != array_count) { // messages are added to send array
                 app_canData.state = APP_CAN_STATE_SEND;
             }
-            else { // all messages are sent in send array, clear the pointer
+            else { 
+                // all messages are sent in send array, clear the pointer
                 current_ptr = 0;
                 array_count = 0;
             }
@@ -151,8 +138,8 @@ int CAN_SEND_TASK() {
         current_ptr++;
         return 1; // message sent, stay in APP_CAN_STATE_SEND
     }
-    
 }
+
 
 /*Globe functions */
 
